@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+.swiper-slide {
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.swiper-slide-active {
+    transform: scale(1);
+}
