@@ -1,5 +1,9 @@
+"use client";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import * as motion from "motion/react-client";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import { useState } from "react";
 
 const streamingPackages = [
   {
@@ -30,36 +34,26 @@ const streamingPackages = [
 ];
 
 export default function Home() {
+  const [progress, setProgress] = useState(0);
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
+  const handleSlideChange = (swiper) => {
+    const progressPercentage =
+      (swiper.activeIndex / swiper.slides.length) * 100;
+    setProgress(progressPercentage);
   };
 
   return (
     <div className="container mx-auto px-6 py-16">
-      <p className="text-[16px] font-[400] text-[#D8261ACC] mb-4">
+      <p className="lg:text-[16px] text-[10px] text-center lg:text-left font-[400] text-[#D8261ACC] mb-0 lg:mb-4">
         Lorem ipsum
       </p>
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-[48px] font-[500] leading-[70px] text-[#2A2A2A]">
+      <div className="flex justify-center lg:justify-between items-center mb-2  lg:mb-8">
+        <h2 className="text-center lg:text-left lg:text-[48px] text-[22px] font-[400] lg:font-[500] leading-[70px] text-[#2A2A2A]">
           LIVE STREAMING
         </h2>
         <a
           href="#"
-          className="text-[18px] text-[#3E4095] py-3 px-6 font-[500] border-[1px] border-[#3E4095] rounded-full hover:bg-[#3E4095] hover:text-white transition-all"
+          className="text-[18px] hidden lg:flex text-[#3E4095] py-3 px-6 font-[500] border-[1px] border-[#3E4095] rounded-full hover:bg-[#3E4095] hover:text-white transition-all"
         >
           View All
         </a>
@@ -69,7 +63,7 @@ export default function Home() {
         {streamingPackages.map((pkg, index) => (
           <div
             key={index}
-            className={`relative overflow-hidden bg-white py-8 flex items-center border-gray-500 border-b-1 transition-all duration-300 group 
+            className={`relative overflow-hidden bg-white py-8 flex  items-center border-gray-500 border-b-1 transition-all duration-300 group 
                ${index === 0 ? "border-t-1" : ""}`}
           >
             <div className="absolute inset-0 bg-[#3E4095] opacity-10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>
@@ -116,19 +110,54 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Mobile View Layout */}
+      {/* Mobile View */}
+
       <div className="lg:hidden block">
+        <Swiper
+          slidesPerView={1.2}
+          spaceBetween={10}
+          centeredSlides={true}
+          className="mySwiper"
+          onSlideChange={handleSlideChange}
+        >
           {streamingPackages.map((pkg, index) => (
-            <div key={index} className="flex flex-col mb-6 shadow-xl p-4">
+            <SwiperSlide
+              key={index}
+              className="flex flex-col mb-6 shadow-xl p-4 w-[260px] h-[350px] bg-white rounded-md"
+            >
               <img
                 src={pkg.image}
                 alt={pkg.title}
                 className="w-full h-[208px] object-cover rounded-md mb-4"
               />
-              <h3 className="text-[20px] font-[500] text-[#2A2A2A]">{pkg.title}</h3>
-              <p className="text-[14px] font-[400] text-black">{pkg.description}</p>
-            </div>
+              <h3 className="text-[20px] font-[500] text-[#2A2A2A]">
+                {pkg.title}
+              </h3>
+              <p className="text-[14px] font-[400] text-black">
+                {pkg.description}
+              </p>
+            </SwiperSlide>
           ))}
+        </Swiper>
+
+        <div className="relative w-[60%] max-w-[300px] h-[10px] bg-gray-300  mx-auto rounded-full">
+          <div
+            className="absolute top-0 left-0 h-full bg-[#6466AA] rounded-full"
+            style={{
+              width: `${progress}%`,
+              transition: "width 0.3s ease-in-out",
+            }}
+          ></div>
+        </div>
+      </div>
+
+      <div className="flex justify-center mt-8">
+        <a
+          href="#"
+          className="text-[18px] block text-[#3E4095] py-3 px-6 font-[500] border-[1px] border-[#3E4095] rounded-full hover:bg-[#3E4095] hover:text-white transition-all"
+        >
+          View All
+        </a>
       </div>
     </div>
   );
