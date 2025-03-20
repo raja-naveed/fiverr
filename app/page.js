@@ -1,4 +1,5 @@
 import { IoIosArrowRoundForward } from "react-icons/io";
+import * as motion from "motion/react-client"
 
 const streamingPackages = [
   {
@@ -46,48 +47,54 @@ export default function Home() {
         </a>
       </div>
 
-      <div className="grid xl:grid-cols-1 gap-8">
+      <div className="grid xl:grid-cols-1 ">
         {streamingPackages.map((pkg, index) => (
           <div
             key={index}
-            className={`bg-white p-6 flex items-center border-[#191A3C] border-b-1 ${index === 0 ? "border-t-1" : ""
-              }`}
+            className={`relative overflow-hidden bg-white py-8 flex items-center border-gray-500 border-b-1 transition-all duration-300 group 
+               ${index === 0 ? "border-t-1" : ""}`}
           >
-            {/* Image section */}
-            <div className="flex-shrink-0 w-[30%]">
+            <div className="absolute inset-0 bg-[#3E4095] opacity-10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>
+
+            <motion.div 
+            className="relative z-10 flex-shrink-0 w-[30%] mr-20"
+              initial={{ x: -200, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 100, duration: 0.6 }}
+            >
               <img
                 src={pkg.image}
                 alt={pkg.title}
                 className="w-full h-[208px] object-cover rounded-md"
               />
-            </div>
+            </motion.div>
 
-            {/* Title section */}
-            <div className="flex-grow mx-14 w-[30%]">
-              <h3 className="text-[24px] font-[500] text-[#2A2A2A] mb-2">
+            <motion.div className="relative z-10 flex-grow mx-14 w-[20%]"
+              initial={{ y: -50, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <h3 className="text-[24px] font-[500] text-[#2A2A2A] group-hover:text-[#191A3C] transition-colors duration-300">
                 {pkg.title}
               </h3>
-            </div>
+            </motion.div>
 
-            {/* Description section */}
-            <div className="flex-grow mx-14 w-[30%]">
-              <p className="text-[16px] font-[400] text-[#6B6B6B] mb-4">
+            <motion.div className="relative z-10 flex-grow mx-14 w-[20%]"
+              initial={{ y: -50, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <p className="text-[16px] font-[400] text-black transition-colors duration-300">
                 {pkg.description}
               </p>
-            </div>
+            </motion.div>
 
-            {/* Arrow icon section */}
-            <div className="flex-shrink-0 flex justify-center items-center w-[10%]">
-              <IoIosArrowRoundForward
-                className="w-[30px] h-[30px] border-1 border-[#3E4095] rounded-full text-[#3E4095]"
-              />
+            <div className="relative z-10 flex justify-end items-center w-[20%] mr-1">
+              <IoIosArrowRoundForward className="w-[38px] h-[38px] border-1 border-[#191A3C] rounded-full text-[#191A3C] group-hover:text-white group-hover:border-[#191A3C] bg-none group-hover:bg-[#191A3C] transition-all duration-300 group-hover:rotate-[-45deg] transform" />
             </div>
-
           </div>
         ))}
       </div>
-
-
     </div>
   );
 }
