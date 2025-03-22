@@ -39,30 +39,24 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
 
   const handleWheelScroll = (event) => {
-    // Prevent the default scroll behavior
     event.preventDefault();
 
     if (swiperRef.current) {
       if (event.deltaY > 0) {
-        // Scroll down -> Next slide
         swiperRef.current.swiper.slideNext();
       } else if (event.deltaY < 0) {
-        // Scroll up -> Previous slide
         swiperRef.current.swiper.slidePrev();
       }
     }
   };
 
   useEffect(() => {
-    // Detect if the screen is mobile
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 1024);
     };
 
-    // Add resize listener to detect mobile view
     window.addEventListener("resize", handleResize);
 
-    // Check initial screen size
     handleResize();
 
     if (isMobile) {
@@ -71,7 +65,6 @@ export default function Home() {
       window.removeEventListener("wheel", handleWheelScroll);
     }
 
-    // Clean up event listeners on unmount
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("wheel", handleWheelScroll);
